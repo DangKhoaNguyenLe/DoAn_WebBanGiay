@@ -1,0 +1,100 @@
+﻿@model List<DoAn_WebBanGiay.Models.sanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPageDashBoard.cshtml";
+
+}
+
+<h1 class="h3 mb-2 text-gray-800">Sản phẩm</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <a href="/Admin/SanPham/Create" class="btn btn-primary mt-2">Thêm sản phẩm</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Mô tả</th>
+                        <th>Giá bán</th>
+                        <th>Danh mục</th>
+                        <th>Thương hiệu</th>
+                        <th>Màu sắc</th>
+                        <th>Size</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td>@i.IdSP</td>
+                            <td class="mx-auto">
+                                @{
+                                    var imageUrl = i.Anh?.FirstOrDefault()?.ImageURL;
+                                }
+                                <a href="/Admin/SanPham/Details/@i.IdSP">
+                                    <img src="@imageUrl" class="mx-auto" style="display: block; width: 130px;height: 130px" />
+                                </a>
+                            </td>
+                            <td>@i.tenSP </td>
+                            <td>@i.moTa </td>
+                            <td>@i.Gia </td>
+                            <td>@i.danhMuc.tenDMuc</td>
+                            <td>@i.Hang.tenHang</td>
+                            <td>
+                                @{
+                                    string mau = string.Empty;
+                                    foreach (var a in i.sanPhamBienThe
+                                        .Where(t => t.IdSP == i.IdSP)
+                                        .GroupBy(t => t.IdMau))
+                                    {
+                                        var first = a.FirstOrDefault();
+                                        if (first != null && first.Mau != null)
+                                        {
+                                            mau += first.Mau.tenMau + " ";
+                                        }
+                                    }
+
+                                }
+                                @mau
+                            </td>
+                            <td>
+                                @{
+                                    string size = string.Empty;
+                                    var btSp = i.sanPhamBienThe.Where(t => t.IdSP == i.IdSP).ToList();
+                                    foreach (var z in btSp)
+                                    {
+                                        if (z != null && size != string.Empty)
+                                        {
+                                            size += ",";
+                                        }
+                                        size += z.Size.tenSize;
+                                    }
+                                }
+                                @size
+                            </td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="/Admin/SanPham/Edit/@i.IdSP" class="btn btn-warning mx-2">Sửa</a>
+                                    <form method="post" action="/Admin/SanPham/Delete/@i.IdSP">
+                                        <button class="btn btn-danger" type="submit">Xóa</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

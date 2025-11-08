@@ -1,0 +1,93 @@
+﻿@model List<DoAn_WebBanGiay.Models.sanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPageProducts.cshtml";
+}
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-success-emphasis">Danh sách sản phẩm</h3>
+
+        <form action="/Products/Index" method="get" class="d-flex align-items-center">
+            <label class="me-2 fw-semibold">Sắp xếp theo:</label>
+            <select name="sort" class="form-select" style="width:180px;" onchange="this.form.submit();">
+                <option value="">Mặc định</option>
+                <option value="tang">Giá tăng dần</option>
+                <option value="giam">Giá giảm dần</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var i in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="@i.Anh.FirstOrDefault().ImageURL" class="card-img-top" alt="@i.tenSP"
+                         style="height:250px; object-fit:cover;" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-truncate">@i.tenSP</h5>
+                        <p class="card-text mb-3">
+                            Giá:
+                            <b class="text-danger">@i.Gia.ToString("N0") ₫</b>
+                        </p>
+                        <div class="mt-auto">
+                            <a href="/Products/Detail/@i.IdSP" class="btn btn-outline-primary w-100">
+                                Xem chi tiết
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@if (ViewBag.NoOfPages > 1)
+{
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+
+            <!-- Nút Trang Trước -->
+            <li class="page-item @(ViewBag.Page <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new {
+                       page = ViewBag.Page - 1,
+                       sort = Request["sort"],
+                       gia = Request["gia"],
+                       danhmucid = Request["danhmucid"]
+                   })">
+                    &laquo; Trước
+                </a>
+            </li>
+
+            <!-- Các số trang -->
+            @for (int i = 1; i <= ViewBag.NoOfPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                    <a class="page-link"
+                       href="@Url.Action("Index", new {
+                           page = i,
+                           sort = Request["sort"],
+                           gia = Request["gia"],
+                           danhmucid = Request["danhmucid"]
+                       })">@i</a>
+                </li>
+            }
+
+            <!-- Nút Trang Sau -->
+            <li class="page-item @(ViewBag.Page >= ViewBag.NoOfPages ? "disabled" : "")">
+                <a class="page-link"
+                   href="@Url.Action("Index", new {
+                       page = ViewBag.Page + 1,
+                       sort = Request["sort"],
+                       gia = Request["gia"],
+                       danhmucid = Request["danhmucid"]
+                   })">
+                    Sau &raquo;
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+}
+

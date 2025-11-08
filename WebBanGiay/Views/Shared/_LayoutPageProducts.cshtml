@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #141111;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: #ffc107;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#141111; height:80px; font-size:20px;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white fw-bold fs-2 me-4" href="@Url.Action("Index", "Home")">🏠︎</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                    aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="@Url.Action("Index", "Products")">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/Admin">Quản lý (Admin)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white fw-bold" href="/Accout/Login">Đăng nhập</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex mt-1">
+        <div class="col-3" style="margin-top:85px">
+            <div class="filter-box border rounded p-3 shadow-sm bg-black">
+
+                <!-- Danh mục giày -->
+                <h5 class="mb-3" style="color:aliceblue">Danh mục giày</h5>
+                @if (ViewBag.DanhMuc != null)
+                {
+                    <div class="list-group mb-4">
+                        @foreach (var cd in ViewBag.DanhMuc)
+                        {
+                            <a href="/Products/Index?danhmucid=@cd.IdDMuc"
+                               class="list-group-item list-group-item-action">
+                                @cd.tenDMuc
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Không có chủ đề nào.</p>
+                }
+
+                <!-- Lọc theo giá -->
+                <h5 class="mb-3 mt-4" style="color:aliceblue">Lọc theo giá</h5>
+                <div class="list-group">
+                    <a href="/Products/Index?gia=duoi1trieu" class="list-group-item list-group-item-action">Dưới 1.000.000₫</a>
+                    <a href="/Products/Index?gia=1-1trieu5" class="list-group-item list-group-item-action">1.000.000₫ – 1.500.000₫</a>
+                    <a href="/Products/Index?gia=1trieu5-2trieu" class="list-group-item list-group-item-action">1.500.000₫ – 2.000.000₫</a>
+                    <a href="/Products/Index?gia=tren2trieu" class="list-group-item list-group-item-action">Trên 2.000.000₫</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p class="mb-1">© 2025 - TRƯỜNG ĐẠI HỌC CÔNG THƯƠNG | Tất cả các quyền được bảo lưu.</p>
+            <p class="mb-0">
+                Liên hệ: <a href="mailto:support@example.com">support@example.com</a> |
+                <a href="#">Chính sách bảo mật</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

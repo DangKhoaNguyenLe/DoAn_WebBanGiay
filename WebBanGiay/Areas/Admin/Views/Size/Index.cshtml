@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPageDashBoard.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Kích thước</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="post" action="/Admin/Size/Create">
+            <div class="row">
+                <div class="mb-3 col-sm-3">
+                    <label class="form-label">Tên Size</label>
+                    <input type="text" name="tenSize" class="form-control" placeholder="Tên màu">
+                </div>
+                <div class="col-sm-3 d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Thêm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Size</th>
+                        <th>Tên Size</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in ViewBag.dsSize)
+                    {
+                        <tr>
+                            <td>@i.IdSize</td>
+                            <td>@i.tenSize</td>
+                            <td>
+                                <form method="post" action="/Admin/Size/Delete/@i.IdSize">
+                                    <button class="btn btn-danger" type="submit">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

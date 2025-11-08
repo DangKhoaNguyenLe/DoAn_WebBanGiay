@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPageDashBoard.cshtml";
+}
+
+<h2>Thêm sản phẩm</h2>
+<div class="w-75 mx-auto">
+    <form method="post" action="/Admin/SanPham/Create">
+        <div class="mb-3">
+            <label class="form-label">Tên sản phẩm</label>
+            <input type="text" name="tenSP" class="form-control" placeholder="Tên sản phẩm">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô tả sản phẩm</label>
+            <input type="text" name="moTa" class="form-control" placeholder="Mô tả sản phẩm">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Giá bán</label>
+            <input type="text" name="Gia" class="form-control" placeholder="Giá bán">
+        </div>
+        <div class="row">
+            <div class="mb-3 col-sm-4">
+                <label class="form-label">Danh mục</label>
+                <select class="form-select" name="IdDMuc">
+                    <option selected>Chọn danh mục</option>
+                    @foreach (var i in ViewBag.DanhMuc)
+                    {
+                        <option value="@i.IdDMuc">@i.tenDMuc</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3 col-sm-4">
+                <label class="form-label">Thương hiệu</label>
+                <select class="form-select" name="IdHang">
+                    <option selected>Chọn thương hiệu</option>
+                    @foreach (var i in ViewBag.Hang)
+                    {
+                        <option value="@i.IdHang">@i.tenHang</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3 col-sm-4">
+                <label class="form-label">Màu sắc</label>
+                <select class="form-select" name="Mau">
+                    <option selected>Chọn màu sắc</option>
+                    @foreach (var i in ViewBag.Mau)
+                    {
+                        <option value="@i.IdMau">@i.tenMau</option>
+                    }
+                </select>              
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-outline-success" onclick="addSize()">Thêm Size</a>
+            <div id="dsSize" class=" border-1 border rounded-2 my-2">
+                
+            </div>
+            <a class="btn btn-outline-success mt-3"  onclick="addAnh()">Thêm Ảnh</a>
+            <div id="dsAnh" class=" border-1 border rounded-2 my-2"></div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Thêm</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let i = 0;
+    function addSize() {
+        const s = document.getElementById("dsSize");
+        const t = document.createElement("div");
+        t.className = "row p-2";
+        t.innerHTML = `
+            <div class="mb-3 col-sm-5">
+                <label class="form-label">Size</label>
+               <select class="form-select" name="dsSize">
+                    <option selected>Chọn Size</option>
+                    @foreach (var i in ViewBag.Size)
+                    {
+                        <option value="@i.IdSize">@i.tenSize</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3 col-sm-5">
+                <label class="form-label">Số lượng</label>
+                <input type="text" name="dsSl" class="form-control" placeholder="Tên sản phẩm">
+            </div>
+            <div class="mb-3 col-sm-2">
+                <input type="button" class="btn btn-danger form-control" value="Xóa" onclick="xoa(this)">
+            </div>
+      `;
+        s.appendChild(t);
+        i++;
+    }
+
+    function addAnh() {
+        const s = document.getElementById("dsAnh");
+        const t = document.createElement("div");
+        t.className = "row p-2";
+        t.innerHTML = `
+        <div class="mb-3 col-sm-10">
+            <label class="form-label">Ảnh</label>
+            <input type="text" name="dsAnh" class="form-control" placeholder="Url ảnh">
+        </div>
+        <div class="mb-3 col-sm-2">
+            <input type="button" class="btn btn-danger form-control" value="Xóa" onclick="xoa(this)">
+        </div>
+  `;
+        s.appendChild(t);
+        i++;
+    }
+
+
+    function xoa(b) {
+        b.closest(".row").remove();
+    }
+</script>

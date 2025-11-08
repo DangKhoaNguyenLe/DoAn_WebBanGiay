@@ -1,0 +1,163 @@
+﻿@model List<DoAn_WebBanGiay.Models.sanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<link href="~/assets/css/homeUser.css" rel="stylesheet" />
+
+<!-- Banner -->
+<div id="bannerCarousel" class="carousel slide mt-4 rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+        <div class="carousel-item active position-relative">
+            <img src="https://laforce.vn/wp-content/uploads/2025/08/cc3ca664d6493a88786fb66c80fbc44d549896c8-2048x1365-2.jpg" class="d-block w-100 banner-img" alt="Banner 1">
+            <div class="banner-overlay"></div>
+            <div class="carousel-caption text-start">
+                <h2 class="fw-bold display-6 mb-3">BST Thu Đông 2025</h2>
+                <p class="lead mb-4">Khám phá phong cách mới nhất cùng ưu đãi đặc biệt.</p>
+                <a href="/Product" class="btn btn-light px-4 py-2 rounded-pill shadow-sm fw-semibold">Mua Ngay</a>
+            </div>
+        </div>
+
+        <div class="carousel-item position-relative">
+            <img src="https://laforce.vn/wp-content/uploads/2025/09/danh-muc-giay-da-nam-dep-7.jpg"
+                 class="d-block w-100 banner-img" alt="Banner Giày Da Nam">
+            <div class="banner-overlay"></div>
+            <div class="carousel-caption text-center">
+                <h2 class="fw-bold display-6 mb-3">Giày Da Nam Cao Cấp</h2>
+                <p class="lead mb-4">
+                    Tôn lên phong thái lịch lãm – sang trọng, tinh tế trong từng đường nét thủ công.
+                </p>
+                <a href="/Product" class="btn btn-outline-light px-4 py-2 rounded-pill fw-semibold">
+                    Khám Phá Ngay
+                </a>
+            </div>
+        </div>
+
+        <div class="carousel-item position-relative">
+            <img src="https://laforce.vn/wp-content/uploads/2025/09/danh-muc-giay-da-nam-dep-4.jpg" class="d-block w-100 banner-img" alt="Banner 3">
+            <div class="banner-overlay"></div>
+            <div class="carousel-caption text-end">
+                <h2 class="fw-bold display-6 mb-3">Ưu Đãi Độc Quyền Online</h2>
+                <p class="lead mb-4">Giảm đến 30% khi mua sắm trực tuyến ngay hôm nay.</p>
+                <a href="/Product" class="btn btn-light px-4 py-2 rounded-pill shadow-sm fw-semibold">Xem Ngay</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!--Sản phẩm nổi bật-->
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Sản Phẩm Nổi Bật</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var sp in Model.Take(4))
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@sp.Anh.FirstOrDefault().ImageURL" class="card-img-top" alt="@sp.tenSP">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="@Url.Action("Detail", "Products", new { id = sp.IdSP })">@sp.tenSP</a></h5>
+                        <p class="card-text text-danger">@String.Format("{0:N0} ₫", sp.Gia)</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+<!--Blog thời trang-->
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Blog Thời Trang</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="https://laforce.vn/wp-content/uploads/2025/06/vat-dung-khong-the-thieu-voi-nam-cong-so.jpg"
+                     class="card-img-top rounded-top" alt="Blog 1">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Cách Phối Đồ Với Giày Da Nam</h5>
+                    <p class="card-text text-muted">
+                        Giày da không chỉ dành cho dân công sở. Hãy khám phá cách phối đồ giúp bạn nổi bật trong mọi hoàn cảnh.
+                    </p>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">Đọc thêm</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="https://laforce.vn/wp-content/uploads/2025/03/giay-da-bi-moc.jpg"
+                     class="card-img-top rounded-top" alt="Blog 2">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Bí Quyết Bảo Quản Giày Da</h5>
+                    <p class="card-text text-muted">
+                        Hướng dẫn chi tiết cách giữ giày da luôn bền đẹp, không nứt, không bay màu qua thời gian.
+                    </p>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">Đọc thêm</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="https://laforce.vn/wp-content/uploads/2025/09/danh-muc-giay-da-nam-dep-3.jpg"
+                     class="card-img-top rounded-top" alt="Blog 3">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Top 5 Mẫu Giày Da Được Yêu Thích 2025</h5>
+                    <p class="card-text text-muted">
+                        Cùng điểm qua những mẫu giày da nam được phái mạnh lựa chọn nhiều nhất mùa thu đông năm nay.
+                    </p>
+                    <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">Đọc thêm</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Đánh giá -->
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-5">Đánh Giá Người Dùng</h2>
+
+    <div class="list-group">
+        <div class="list-group-item d-flex align-items-center">
+            <img src="https://i.pravatar.cc/80?img=12" class="rounded-circle me-3" alt="Nguyễn Văn A" width="70" height="70">
+            <div>
+                <h5 class="mb-1">Nguyễn Văn A <span class="text-warning">★★★★★</span></h5>
+                <p class="mb-0">Giày đẹp, đi rất thoải mái. Chắc chắn sẽ mua lại!</p>
+            </div>
+        </div>
+
+        <div class="list-group-item d-flex align-items-center">
+            <img src="https://i.pravatar.cc/80?img=47" class="rounded-circle me-3" alt="Trần Thị B" width="70" height="70">
+            <div>
+                <h5 class="mb-1">Trần Thị B <span class="text-warning">★★★★☆</span></h5>
+                <p class="mb-0">Màu sắc đẹp, đúng hình. Chỉ hơi chật một chút.</p>
+            </div>
+        </div>
+
+        <div class="list-group-item d-flex align-items-center">
+            <img src="https://i.pravatar.cc/80?img=22" class="rounded-circle me-3" alt="Lê Hoàng C" width="70" height="70">
+            <div>
+                <h5 class="mb-1">Lê Hoàng C <span class="text-warning">★★★★★</span></h5>
+                <p class="mb-0">Giao hàng nhanh, sản phẩm chất lượng tuyệt vời!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPageDashBoard.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Thương hiệu</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="post" action="@(ViewBag.Mess != "Edit" ? "/Admin/Hang/Create" : "/Admin/Hang/Edit")">
+            <div class="row">
+                <div class="mb-3 col-sm-3">
+                    <label class="form-label">Tên thương hiệu</label>
+                    @if (ViewBag.Mess == "Edit")
+                    {
+                        <input name="IdHang" type="hidden" value="@ViewBag.Hang.IdHang" />
+                    }
+                    <input type="text" name="tenHang" class="form-control" placeholder="Tên màu"
+                           value="@(ViewBag.Mess != "Edit" ? "" : ViewBag.Hang.tenHang)">
+                </div>
+                <div class="mb-3 col-sm-2">
+                    <label class="form-label">Xuất xứ</label>
+                    <input type="text" name="XuatXu" class="form-control" placeholder="Xuất xứ"
+                           value="@(ViewBag.Mess != "Edit" ? "" : ViewBag.Hang.XuatXu)">
+                </div>
+                <div class="col-sm-3 d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                        @(ViewBag.Mess != "Edit" ? "Thêm" : "Sửa")
+                    </button>
+                </div>
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger w-75 mx-2 mt-2">@TempData["Error"]</div>
+                }
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Tên thương hiệu</th>
+                        <th>Xuất xứ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in ViewBag.dsHang)
+                    {
+                        <tr>
+                            <td class="border-1">@i.tenHang</td>
+                            <td class="border-1">@i.XuatXu</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="/Admin/Hang/Edit/@i.IdHang" class="btn btn-warning mx-2">Sửa</a>
+                                    <form method="post" action="/Admin/Hang/Delete/@i.IdHang">
+                                        <button class="btn btn-danger" type="submit">Xóa</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

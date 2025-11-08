@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPageDashBoard.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Danh mục</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <form method="post" action="@(ViewBag.Mess != "Edit" ? "/Admin/DanhMuc/Create" : "/Admin/DanhMuc/Edit")">
+            <div class="row">
+                <div class="mb-3 col-sm-3">
+                    <label class="form-label">Tên danh mục</label>
+                    @if (ViewBag.Mess == "Edit")
+                    {
+                        <input name="IdDMuc" type="hidden" value="@ViewBag.DanhMuc.IdDMuc" />
+                    }
+                    <input type="text" name="tenDMuc" class="form-control" placeholder="Tên danh mục"
+                           value="@(ViewBag.Mess != "Edit" ? "" : ViewBag.DanhMuc.tenDMuc)">
+                </div>
+                <div class="col-sm-3 d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                        @(ViewBag.Mess != "Edit" ? "Thêm" : "Sửa")
+                    </button>
+                </div>
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger w-75 mx-2 mt-2">@TempData["Error"]</div>
+                }
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="border-1">Tên danh mục</th>
+                        <th class="border-1">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in ViewBag.dsDanhmuc)
+                    {
+                        <tr>
+                            <td class="border-1">@i.tenDMuc</td>
+                            <td class="d-flex border-1">
+                                <a href="/Admin/DanhMuc/Edit/@i.IdDMuc" class="btn btn-warning mx-2">Sửa</a>
+                                <form method="post" action="/Admin/DanhMuc/Delete/@i.IdDMuc">
+                                    <button class="btn btn-danger" type="submit">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

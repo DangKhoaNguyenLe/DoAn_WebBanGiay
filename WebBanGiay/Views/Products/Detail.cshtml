@@ -1,0 +1,103 @@
+﻿@model DoAn_WebBanGiay.Models.sanPham
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+
+}
+
+<div class="d-flex">
+    <div class="col-5 text-center">
+        <div class="position-relative">
+            <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y"
+                    id="prevBtn" style="z-index:10">
+                &lt;
+            </button>
+
+            <img id="mainImage" src="@ViewBag.Images[0]" class="img-fluid rounded shadow" alt="Ảnh sản phẩm">
+
+            <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y"
+                    id="nextBtn" style="z-index:10">
+                &gt;
+            </button>
+        </div>
+        <div class="d-flex justify-content-center mt-3 flex-wrap">
+            @for (int i = 0; i < ViewBag.Images.Count; i++)
+            {
+                <img src="@ViewBag.Images[i]" class="thumbnail m-1 rounded"
+                     style="width:60px; height:60px; object-fit:cover; cursor:pointer;"
+                     onclick="changeImage(@i)">
+            }
+        </div>
+    </div>
+    <div class="col-7 ps-4 text-start">
+        <h3 class="fw-bold mb-2">@Model.tenSP</h3>
+        <h4 class="text-danger fw-semibold">@Model.Gia.ToString("N0") ₫</h4>
+
+        <p class="mb-3">
+            <strong>Tình trạng:</strong>
+            <span class="text-success">
+                @(Model.sanPhamBienThe.FirstOrDefault()?.SoLuong > 0 ? "Còn hàng" : "Hết hàng")
+            </span>
+        </p>
+        <div class="mb-3">
+            <label class="fw-semibold d-block mb-2">Size</label>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var size in ViewBag.Sizes)
+                {
+                    <button type="button"
+                            class="btn btn-outline-secondary size-btn"
+                            onclick="selectSize(this, '@size.IdSize')">
+                        @size.tenSize
+                    </button>
+                }
+            </div>
+            <a href="#" class="d-block mt-2 small text-decoration-none">
+                <i class="bi bi-rulers"></i> Hướng dẫn chọn size
+            </a>
+        </div>
+        <div class="mb-3 d-flex align-items-center">
+            <label class="fw-semibold me-3 mb-0">Số lượng:</label>
+            <div class="input-group" style="width:120px;">
+                <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
+                <input type="text" id="quantity" class="form-control text-center" value="1" readonly />
+                <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(1)">+</button>
+            </div>
+        </div>
+        <button class="btn btn-dark w-100 py-2 mb-4" onclick="addToCart()">
+            Thêm vào giỏ hàng
+        </button>
+
+        <hr />
+        <h5 class="fw-semibold mb-3">Mô tả sản phẩm</h5>
+        <p>@Model.moTa</p>
+    </div>
+</div>
+<div class="border-top">
+    <div class="container my-5">
+        <h2 class="mb-4 text-center">Sản Phẩm Cùng Loại</h2>
+
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            @foreach (var sp in ViewBag.SpCungLoai)
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="@Model.Anh.FirstOrDefault().ImageURL?.ImageURL" class="card-img-top" alt="@sp.tenSP">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="@Url.Action("Detail", "Products", new { id = sp.IdSP })">@sp.tenSP</a>
+                            </h5>
+                            <p class="card-text text-danger">@String.Format("{0:N0} ₫", sp.Gia)</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script src="~/assets/javascript/DetailJS.js"></script>
+<script>
+    const productImages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Images));
+    initProductDetail(productImages);
+</script>
